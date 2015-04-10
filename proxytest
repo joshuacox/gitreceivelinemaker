@@ -1,0 +1,12 @@
+#!/bin/bash
+# test ping to proxy if good echo proxy into apt.conf
+PING_AVG=$(ping -c 3 PROXY_HOST|grep 'min/avg/max'|awk '{print $4}'|cut -d '/' -f 2)
+TO_INT=$(echo perl -le \'print int\(\"$PING_AVG+0.5/1\"\)\' |bash)
+echo "ping to proxy $TO_INT"
+if [ "$TO_INT" -lt "25" ]
+then
+	echo $TO_INT
+  echo "using proxy"
+	echo 'Acquire::http::Proxy "http://PROXY_HOST:PROXY_PORT";'
+	echo 'Acquire::http::Proxy "http://PROXY_HOST:PROXY_PORT";'>/etc/apt/apt.conf
+fi
