@@ -79,10 +79,10 @@ rundocker:
 	-v ~/.gitconfig:/root/.gitconfig \
 	-v /var/run/docker.sock:/run/docker.sock \
 	-v $(shell which docker):/bin/docker \
-	-t gitreceivelinemaker
+	-t joshuacox/gitreceivelinemaker
 
 builddocker:
-	/usr/bin/time -v docker build -t gitreceivelinemaker .
+	/usr/bin/time -v docker build -t joshuacox/gitreceivelinemaker .
 
 beep:
 	@echo "beep"
