@@ -12,7 +12,7 @@ Install gitreceive and make the proper key receive line for a keys repo associat
 
 clone this repo
 
-place your id_ecdsa.pub in the root directory of this repo
+place your id_rsa.pub in the root directory of this repo
 
 `make key`
 

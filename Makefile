@@ -3,8 +3,8 @@ all: help
 help:
 	@echo ""
 	@echo "-- Help Menu"
-	@echo ""  Add your key to the basedir ./id_ecdsa.pub
-	@echo "   1. make key       - build the gitreceivelinemaker image and upload the id_ecdsa.pub you have placed in this folder, will prompt for username"
+	@echo ""  Add your key to the basedir ./id_rsa.pub
+	@echo "   1. make key       - build the gitreceivelinemaker image and upload the id_rsa.pub you have placed in this folder, will prompt for username"
 
 testrun: testpub name repo continue replacename replacerepo catdockerfile resetrepo resetname
 
@@ -13,25 +13,25 @@ key: rm testpub name repo continue replacename replacerepo builddocker rundocker
 continue:
 	@echo ""
 	@while [ -z "$$CONTINUE" ]; do \
-			read -r -p "I am about to add the key id_ecdsa.pub with the username `cat name` to the webhosting.coop repository Type anything but Y or y to exit. [y/N]: " CONTINUE; \
+			read -r -p "I am about to add the key id_rsa.pub with the username `cat name` to the webhosting.coop repository Type anything but Y or y to exit. [y/N]: " CONTINUE; \
 	done ; \
 	[ $$CONTINUE = "y" ] || [ $$CONTINUE = "Y" ] || (echo "Exiting."; exit 1;)
 	@echo "..building image and uploading keys.."
 
 testpub:
-	@if [ -f "id_ecdsa.pub" ] ; then echo "found id_ecdsa.pub testing to ensure proper format...."; else echo "You must supply an id_ecdsa.pub in this directory Exiting." ; exit 1; fi ;
-	@[ "$(shell bash testpub.sh)" = "GOOD" ] || (echo "id_ecdsa.pub is not a working pubfile. You must supply a working id_ecdsa.pub Exiting."; exit 1;)
-	@echo "id_ecdsa.pub appears to be good"
+	@if [ -f "id_rsa.pub" ] ; then echo "found id_rsa.pub testing to ensure proper format...."; else echo "You must supply an id_rsa.pub in this directory Exiting." ; exit 1; fi ;
+	@[ "$(shell bash testpub.sh)" = "GOOD" ] || (echo "id_rsa.pub is not a working pubfile. You must supply a working id_rsa.pub Exiting."; exit 1;)
+	@echo "id_rsa.pub appears to be good"
 
 # will skip over this step if the name file is left from previous run 'make clean' to remove
 name:
 	@while [ -z "$$NAME" ]; do \
-		read -r -p "Enter the username you wish to associate with the id_ecdsa.pub [USERNAME]: " NAME; echo "$$NAME">>name; cat name; \
+		read -r -p "Enter the username you wish to associate with the id_rsa.pub [USERNAME]: " NAME; echo "$$NAME">>name; cat name; \
 	done ;
 
 repo:
 	@while [ -z "$$REPO" ]; do \
-		read -r -p "Enter the repo you wish to upload the id_ecdsa.pub [https://github.com/YOURTEAM_HERE/keys.git]: " REPO; echo "$$REPO">>repo; cat repo; \
+		read -r -p "Enter the repo you wish to upload the id_rsa.pub [https://github.com/YOURTEAM_HERE/keys.git]: " REPO; echo "$$REPO">>repo; cat repo; \
 	done ;
 
 proxy:
