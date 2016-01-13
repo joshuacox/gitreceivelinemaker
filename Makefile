@@ -8,7 +8,7 @@ help:
 
 testrun: testpub name repo continue replacename replacerepo catdockerfile resetrepo resetname
 
-key: testpub name repo continue replacename replacerepo builddocker rundocker resetname resetrepo rm
+key: rm testpub name repo continue replacename replacerepo builddocker rundocker resetname resetrepo rm
 
 continue:
 	@echo ""
@@ -70,15 +70,16 @@ resetproxy:
 
 build: builddocker beep
 
-run: rundocker beep
+run: rm rundocker beep
 
 rundocker:
-	@docker run --name=gitreceivelinemaker \
+	docker run \
 	-v ~/.ssh:/tmp/.ssh \
 	--cidfile="cid" \
+	-v ~/.ssh:/tmp/.ssh \
 	-v ~/.gitconfig:/root/.gitconfig \
-	-v /var/run/docker.sock:/run/docker.sock \
-	-v $(shell which docker):/bin/docker \
+	-v `pwd`:/content \
+	-e TARGETUSER=`cat name` \
 	-t joshuacox/gitreceivelinemaker
 
 builddocker:
@@ -89,14 +90,14 @@ beep:
 	@aplay /usr/share/sounds/alsa/Front_Center.wav
 
 kill:
-	@docker kill `cat cid`
+	-@docker kill `cat cid`
 
 rm-name:
 	rm  name
 
 rm-image:
-	@docker rm `cat cid`
-	@rm cid
+	-@docker rm `cat cid`
+	-@rm cid
 
 cleanfiles:
 	rm name
