@@ -14,15 +14,11 @@ cd /usr/local/keys
 git pull
 # Generate the line
 cat /content/id_rsa.pub| gitreceive upload-key $TARGETUSER
-cat /content/id_rsa.pub| gitreceive upload-key $TARGETUSER
-cat /content/id_dsa.pub| gitreceive upload-key $TARGETUSER
 # Grab the originals
 cp /usr/local/keys/keys /tmp/keys.new
 cp /usr/local/keys/gitreceive-keys /tmp/gitreceive-keys.new
 # Grab the new
 cat /content/id_rsa.pub >>/tmp/keys.new
-cat /content/id_rsa.pub >>/tmp/keys.new
-cat /content/id_dsa.pub >>/tmp/keys.new
 #omg gitreceive has no clue how to make its own lines
 cat /home/git/.ssh/authorized_keys |sed 's/\/usr\/local\/bin\//\/usr\/bin\//'>>/tmp/gitreceive-keys.new
 # Sort and uniq to prevent duplicates
