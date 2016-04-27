@@ -6,9 +6,9 @@ help:
 	@echo ""  Add your key to the basedir ./id_ecdsa.pub
 	@echo "   1. make key       - build the gitreceivelinemaker image and upload the id_ecdsa.pub you have placed in this folder, will prompt for username"
 
-testrun: testpub name repo continue replacename replacerepo catdockerfile resetrepo resetname
+testrun: testpub name repo continue catdockerfile 
 
-key: rm testpub name repo continue replacename replacerepo builddocker rundocker resetname resetrepo rm
+key: rm testpub name repo continue builddocker rundocker rm
 
 continue:
 	@echo ""
@@ -79,6 +79,7 @@ rundocker:
 	-v ~/.ssh:/tmp/.ssh \
 	-v ~/.gitconfig:/root/.gitconfig \
 	-v `pwd`:/content \
+	-e TARGETREPO=`cat repo` \
 	-e TARGETUSER=`cat name` \
 	-t joshuacox/gitreceivelinemaker
 
