@@ -73,14 +73,16 @@ build: builddocker beep
 run: rm rundocker beep
 
 rundocker:
+	$(eval NAME := $(shell cat name))
+	$(eval REPO := $(shell cat repo))
 	docker run \
 	-v ~/.ssh:/tmp/.ssh \
 	--cidfile="cid" \
 	-v ~/.ssh:/tmp/.ssh \
 	-v ~/.gitconfig:/root/.gitconfig \
 	-v `pwd`:/content \
-	-e TARGETREPO=`cat repo` \
-	-e TARGETUSER=`cat name` \
+	-e TARGETREPO=$(REPO) \
+	-e TARGETUSER=$(NAME) \
 	-t joshuacox/gitreceivelinemaker
 
 builddocker:
@@ -109,6 +111,10 @@ cleanfiles:
 rm: kill rm-image
 
 clean: cleanfiles rm
+
+quickclean:
+	rm name
+
 
 enter:
 	docker exec -i -t `cat cid` /bin/bash
